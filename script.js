@@ -574,11 +574,11 @@ terminalInput.addEventListener('keypress', async (e) => {
     }
 });
 
-// Event listeners
+// Event listeners  
 let updateTimeout;
 function debouncedUpdate() {
     clearTimeout(updateTimeout);
-    updateTimeout = setTimeout(updateDisplay, 300);
+    updateTimeout = setTimeout(updateDisplay, 50);
 }
 
 supplyInput.addEventListener('input', debouncedUpdate);
@@ -963,6 +963,26 @@ function updateLeaderboard(coins) {
         
         leaderboardTable.appendChild(row);
     });
+}
+
+// Compact Mode Toggle
+let compactMode = false;
+
+function toggleCompactMode() {
+    compactMode = !compactMode;
+    const body = document.body;
+    const hints = document.querySelectorAll('.input-hint');
+    const labels = document.querySelectorAll('.label-text');
+    
+    if (compactMode) {
+        body.classList.add('compact-mode');
+        hints.forEach(hint => hint.style.display = 'none');
+        addConsoleLog('Compact mode enabled', 'INFO');
+    } else {
+        body.classList.remove('compact-mode');
+        hints.forEach(hint => hint.style.display = 'block');
+        addConsoleLog('Compact mode disabled', 'INFO');
+    }
 }
 
 // Initialize after bootup

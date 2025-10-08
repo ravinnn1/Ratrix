@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
     <!-- Scanline Overlay -->
     <div class="scanline"></div>
     
@@ -38,12 +39,15 @@
     <!-- Main Content -->
     <div class="container" id="mainContent" style="display: none;">
         <!-- Twitter Link Box -->
-        <a href="https://twitter.com/ratrixcoin" target="_blank" rel="noopener noreferrer" class="twitter-box">
+        <a href="https://twitter.com/ratrixcoin" target="_blank" rel="noopener noreferrer" class="twitter-box" aria-label="Follow Ratrix on Twitter">
             <svg class="twitter-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
             <span class="twitter-text">Follow @ratrixcoin</span>
         </a>
+        
+        <!-- Compact Mode Button -->
+        <button class="compact-mode-btn" onclick="toggleCompactMode()" aria-label="Toggle compact mode to hide helper text">⚙️ Compact Mode</button>
         
         <header>
             <!-- System Status Bar -->
@@ -60,13 +64,17 @@
                     <span class="status-label">SYNC:</span>
                     <span class="status-value" id="syncValue">---%</span>
                 </div>
+                <div class="status-item network-status">
+                    <span class="health-indicator"></span>
+                    <span class="health-text">Live Network: Stable</span>
+                </div>
             </div>
             
             <div class="logo-text">
                 <span class="flicker">[#]</span> Ratrix
                 <!-- Info Tooltip -->
-                <span class="info-tooltip">
-                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <span class="info-tooltip" role="button" tabindex="0" aria-label="Information about Ratrix">
+                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <circle cx="12" cy="12" r="10"></circle>
                         <line x1="12" y1="16" x2="12" y2="12"></line>
                         <line x1="12" y1="8" x2="12.01" y2="8"></line>
@@ -332,11 +340,7 @@
         </div>
 
         <footer>
-            <p class="footer-text">you are the <span class="accent">73rd</span> degen calculating risk...</p>
-            <p class="legal-disclaimer">
-                <strong>LEGAL DISCLAIMER:</strong> This audit is for entertainment purposes only and does not constitute financial advice. 
-                Always conduct your own research before making investment decisions.
-            </p>
+            <p class="footer-copyright">© 2025 <span class="accent">Ratrix</span> | All rights reserved</p>
         </footer>
     </div>
 
