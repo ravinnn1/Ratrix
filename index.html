@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RugScore — Crypto Risk Playground</title>
+    <meta name="description" content="Tweak token variables and visualize risk.">
+    <meta property="og:title" content="RugScore — Crypto Risk Playground">
+    <meta property="og:description" content="Tweak token variables and visualize risk.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=IBM+Plex+Mono:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Scanline Overlay -->
+    <div class="scanline"></div>
+    
+    <!-- Particle Background -->
+    <div class="particles"></div>
+
+    <!-- Bootup Animation -->
+    <div id="bootup" class="bootup-screen">
+        <div class="bootup-text">
+            <p class="boot-line">[SYSTEM] Initializing nodes...</p>
+            <p class="boot-line">[INFO] Syncing blockchain data...</p>
+            <p class="boot-line">[SUCCESS] Ratrix online.</p>
+        </div>
+    </div>
+
+    <!-- Rug Screen -->
+    <div id="rugScreen" class="rug-screen">
+        <div class="rug-text">RUGGED [X]</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" id="mainContent" style="display: none;">
+        <!-- Twitter Link Box -->
+        <a href="https://twitter.com/ratrixcoin" target="_blank" rel="noopener noreferrer" class="twitter-box">
+            <svg class="twitter-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span class="twitter-text">Follow @ratrixcoin</span>
+        </a>
+        
+        <header>
+            <!-- System Status Bar -->
+            <div class="system-status-bar">
+                <div class="status-item">
+                    <span class="status-label">UPTIME:</span>
+                    <span class="status-value" id="uptimeValue">00:00:00</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">NODES:</span>
+                    <span class="status-value" id="nodesValue">0</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">SYNC:</span>
+                    <span class="status-value" id="syncValue">---%</span>
+                </div>
+            </div>
+            
+            <div class="logo-text">
+                <span class="flicker">[#]</span> Ratrix
+                <!-- Info Tooltip -->
+                <span class="info-tooltip">
+                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span class="tooltip-text">RATRIX: Real-time Audit & Token Risk Index - A simulation playground for analyzing crypto token risk factors</span>
+                </span>
+            </div>
+            
+            <!-- UTC Clock -->
+            <div class="utc-clock" id="utcClock">00:00:00 UTC</div>
+            
+            <div class="logo-container">
+                <div class="logo-backlight"></div>
+                <h1 class="neon-heading">$MTRX<span class="cursor">_</span></h1>
+            </div>
+            <p class="logo-subtitle">AI-Powered Risk Intelligence Engine</p>
+            <p class="subtitle">Adjust variables and see how the risk score changes in real-time</p>
+            
+            <!-- Simulations Counter -->
+            <p class="simulations-counter">
+                <span class="counter-label">Total Simulations:</span>
+                <span class="counter-value" id="simulationsCount">0</span>
+            </p>
+        </header>
+
+        <div class="divider-pulse"></div>
+
+        <!-- Binary Code Bar -->
+        <div class="binary-bar-container">
+            <div class="binary-bar">
+                <pre class="binary-animation">01001101 01010100 01010010 01011000 00100000 01010010 01100001 01110100 01110010 01101001 01111000 00100000 01000011 01110010 01111001 01110000 01110100 01101111 00100000 01010010 01101001 01110011 01101011 00100000 01010011 01100011 01101111 01110010 01100101 00100000 01010000 01101100 01100001 01111001 01100111 01110010 01101111 01110101 01101110 01100100</pre>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            <!-- Left Column -->
+            <div class="left-column">
+                <div class="controls-panel fade-in" style="height: fit-content;">
+                    <h2>Project Variables</h2>
+                    
+                    <div class="control-group">
+                        <label for="supply">
+                            <span class="label-text">Total Supply</span>
+                        </label>
+                        <input type="text" id="supply" value="1000000000" placeholder="e.g., 1000000000">
+                        <div class="progress-bar">
+                            <div class="progress-fill supply-progress" id="supplyProgress"></div>
+                        </div>
+                        <div class="input-hint">Enter total token supply (e.g., 1,000,000,000)</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="liquidity">
+                            <span class="label-text">Liquidity (USD)</span>
+                        </label>
+                        <input type="text" id="liquidity" value="50000" placeholder="e.g., 50000">
+                        <div class="progress-bar">
+                            <div class="progress-fill liquidity-progress" id="liquidityProgress"></div>
+                        </div>
+                        <div class="input-hint">Enter liquidity in USD (e.g., 50,000)</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="holders">
+                            <span class="label-text">Number of Holders</span>
+                        </label>
+                        <input type="text" id="holders" value="500" placeholder="e.g., 500">
+                        <div class="progress-bar">
+                            <div class="progress-fill holders-progress" id="holdersProgress"></div>
+                        </div>
+                        <div class="input-hint">Enter number of token holders (e.g., 500)</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="devWallet">
+                            <span class="label-text">Dev Wallet %</span>
+                        </label>
+                        <input type="text" id="devWallet" value="10" placeholder="e.g., 10">
+                        <div class="progress-bar">
+                            <div class="progress-fill devwallet-progress" id="devWalletProgress"></div>
+                        </div>
+                        <div class="input-hint">Enter dev wallet percentage (0-100)</div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="reset-btn" onclick="resetValues()">
+                            <span class="btn-text">RESET TO DEFAULTS</span>
+                        </button>
+                        <button class="audit-btn" onclick="runAudit()">
+                            <span class="btn-text">RUN AUDIT</span>
+                        </button>
+                        <button class="rug-btn" onclick="simulateRug()">
+                            <span class="btn-text">SIMULATE RUG</span>
+                        </button>
+                        <button class="report-btn" onclick="generateReport()">
+                            <span class="btn-text">GENERATE REPORT</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Column -->
+            <div class="center-column">
+                <div class="results-panel fade-in">
+                    <!-- SVG Gauge -->
+                    <div class="gauge-wrapper">
+                        <div class="gauge-container">
+                            <svg class="risk-gauge" viewBox="0 0 200 200">
+                                <circle class="gauge-bg" cx="100" cy="100" r="80" />
+                                <circle class="gauge-fill" id="gaugeFill" cx="100" cy="100" r="80" />
+                            </svg>
+                            <div class="gauge-center">
+                                <div class="score-number" id="scoreNumber">0</div>
+                                <div class="score-label">RISK SCORE</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Risk Scale -->
+                        <div class="risk-scale">
+                            <div class="scale-bar">
+                                <div class="scale-gradient"></div>
+                                <div class="scale-indicator" id="scaleIndicator"></div>
+                            </div>
+                            <div class="scale-labels">
+                                <span class="scale-label">100</span>
+                                <span class="scale-label">75</span>
+                                <span class="scale-label">50</span>
+                                <span class="scale-label">25</span>
+                                <span class="scale-label">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-level" id="riskLevel">CALCULATING...</div>
+                    <div class="risk-persona" id="riskPersona"></div>
+
+                    <div class="divider-pulse"></div>
+
+                    <div class="breakdown">
+                        <h3>Risk Breakdown</h3>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Liquidity Risk</span>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" id="liquidityRisk"></div>
+                            </div>
+                            <span class="breakdown-value" id="liquidityRiskValue">0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Holder Distribution</span>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" id="holderRisk"></div>
+                            </div>
+                            <span class="breakdown-value" id="holderRiskValue">0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Dev Wallet Risk</span>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" id="devRisk"></div>
+                            </div>
+                            <span class="breakdown-value" id="devRiskValue">0</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="breakdown-label">Supply Concentration</span>
+                            <div class="breakdown-bar">
+                                <div class="breakdown-fill" id="supplyRisk"></div>
+                            </div>
+                            <span class="breakdown-value" id="supplyRiskValue">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Audit Report -->
+                    <div class="audit-report" id="auditReport" style="display: none;">
+                    <h4>[*] Audit Report</h4>
+                        <div class="audit-line" id="auditLine1"></div>
+                        <div class="audit-line" id="auditLine2"></div>
+                        <div class="audit-line" id="auditLine3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Leaderboard -->
+                <div class="leaderboard-panel fade-in">
+                    <h3>[!] Top Simulated Tokens</h3>
+                    <div class="leaderboard-table">
+                        <div class="leaderboard-row header">
+                            <span class="rank">#</span>
+                            <span class="token">Token</span>
+                            <span class="price">Price</span>
+                            <span class="risk-score">Risk</span>
+                        </div>
+                        <div class="leaderboard-row">
+                            <span class="rank">1</span>
+                            <span class="token">SafeMoon2.0</span>
+                            <span class="risk-score low">12</span>
+                        </div>
+                        <div class="leaderboard-row">
+                            <span class="rank">2</span>
+                            <span class="token">PumpItCoin</span>
+                            <span class="risk-score moderate">45</span>
+                        </div>
+                        <div class="leaderboard-row">
+                            <span class="rank">3</span>
+                            <span class="token">DefinitelyNotRug</span>
+                            <span class="risk-score high">78</span>
+                        </div>
+                        <div class="leaderboard-row">
+                            <span class="rank">4</span>
+                            <span class="token">MoonShot9000</span>
+                            <span class="risk-score critical">92</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Command Line Interface -->
+                <div class="terminal-section fade-in">
+                    <h3>[>] Terminal</h3>
+                    <div class="terminal-output" id="terminalOutput">
+                        <div class="terminal-line">Type 'help' for available commands</div>
+                        <div class="terminal-line" style="color: #facc15; margin-top: 8px;">🎮 Challenge: Can you find all 10 hidden terminal easter eggs?</div>
+                    </div>
+                    <div class="terminal-input-wrapper">
+                        <span class="terminal-prompt">&gt;</span>
+                        <input type="text" class="terminal-input" id="terminalInput" placeholder="Enter command..." />
+                    </div>
+                </div>
+
+                <!-- Info Box -->
+                <div class="info-box fade-in">
+                    <h4>[i] Score Guide</h4>
+                    <ul>
+                        <li><strong>0-25:</strong> Low Risk</li>
+                        <li><strong>26-50:</strong> Moderate Risk</li>
+                        <li><strong>51-75:</strong> High Risk</li>
+                        <li><strong>76-100:</strong> Critical Risk</li>
+                    </ul>
+                </div>
+
+                <!-- Risk History -->
+                <div class="history-panel fade-in">
+                    <h3>[=] Risk History</h3>
+                    <div class="history-list" id="historyList">
+                        <div class="history-item faded">
+                            <span class="timestamp">--:--:--</span>
+                            <span class="score">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Layout: System Logs + Terminal side-by-side -->
+        <div class="footer-layout">
+            <!-- Console Logs -->
+            <div class="console-panel fade-in">
+                <h3>System Logs</h3>
+                <div class="console-output" id="consoleOutput">
+                    <div class="console-line">[SYSTEM] RugScore initialized</div>
+                    <div class="console-line">[INFO] Ready for analysis</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p class="footer-text">you are the <span class="accent">73rd</span> degen calculating risk...</p>
+            <p class="legal-disclaimer">
+                <strong>LEGAL DISCLAIMER:</strong> This audit is for entertainment purposes only and does not constitute financial advice. 
+                Always conduct your own research before making investment decisions.
+            </p>
+        </footer>
+    </div>
+
+    <audio id="clickSound" preload="auto">
+        <source src="click.mp3" type="audio/mpeg">
+        <source src="click.wav" type="audio/wav">
+    </audio>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
